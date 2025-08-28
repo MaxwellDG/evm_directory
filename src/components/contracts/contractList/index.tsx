@@ -1,28 +1,34 @@
 import { Box, Flex, Image, List, Text } from "@chakra-ui/react"
-import type { Category } from "../ui/summaryBox"
 import type { Contract } from "../contractInfo/types"
-import { useEffect, useState } from "react"
-import TablePaginator from "../ui/paginator"
+import type { ContractFiltersPayload } from "../contractFilters"
+import TablePaginator from "../../ui/paginator"
 
 type Props = {
-    category: keyof typeof Category
+    contracts: Contract[]
+    setFocusedContract: (contract: Contract) => void
+    filters: ContractFiltersPayload
+    handleChangeFilters: (name: keyof ContractFiltersPayload, val: any) => void
+    totalPages: number
 }
 
-export default function ContractList({ category }: Props) {
-    const [data, setData] = useState<Contract[]>([])
-    const [page, setPage] = useState<number>(1)
-    const [totalPages, setTotalPages] = useState<number>(1)
+export default function ContractList({
+    contracts,
+    setFocusedContract,
+    totalPages,
+    filters,
+    handleChangeFilters,
+}: Props) {
 
-    useEffect(() => {
-        // todo retrieve paginated and filtered data from api
-    }, [category])
+    function handlePageChange(num: 1 | -1) {
+        handleChangeFilters("page", Math.min(Math.max(1, filters.page + num), totalPages))
+    }
 
     return (
         <Flex flexDir="column">
             <List.Root rowGap={"0.5rem"}>
-                {data.map((contract: Contract) => {
+                {contracts.map((contract: Contract) => {
                     return (
-                        <List.Item>
+                        <List.Item cursor="pointer" onClick={() => setFocusedContract(contract)}>
                             <Flex gap="0.25rem">
                                 <Box w="100px" h="100px" borderRadius="full">
                                     {contract.avatar && <Image h="full" w="full" src={contract.avatar} />}
@@ -39,11 +45,11 @@ export default function ContractList({ category }: Props) {
                 })}
             </List.Root>
             <TablePaginator
-                currentPage={page}
+                currentPage={filters.page}
                 totalPages={totalPages}
                 name={"contracts"}
-                onNextPage={() => setPage((prev) => Math.min(prev + 1, totalPages))}
-                onPrevPage={() => setPage((prev) => Math.max(prev - 1, 1))}
+                onNextPage={() => handlePageChange(1)}
+                onPrevPage={() => handlePageChange(-1)}
             />
         </Flex>
     )
