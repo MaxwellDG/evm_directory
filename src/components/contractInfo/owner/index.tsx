@@ -4,9 +4,11 @@ import type { ContractData } from "../types"
 type Props = {
     data: ContractData
     hashId: string
+    name?: string
+    desc?: string
 }
 
-export default function ContractOwner({ data, hashId }: Partial<Props>) {
+export default function ContractOwner({ data, hashId, name, desc }: Partial<Props>) {
     return (
         <Flex gap="0.25rem">
             <Skeleton loading={!data}>

@@ -3,14 +3,14 @@ import Tabs from "../ui/tabs"
 import { useEffect, useMemo, useState } from "react"
 import ContractInfoOverview from "./overview"
 import ContractInfoMethods from "./methods"
-import { type ContractData } from "./types"
+import { type Contract, type ContractData } from "./types"
 import ContractOwner from "./owner"
 
 type Props = {
-    hashId: string
+    contract: Contract
 }
 
-export default function ContractInfoContainer({ hashId }: Props) {
+export default function ContractInfoContainer({ contract }: Props) {
     const [data, setData] = useState<ContractData>()
 
     useEffect(() => {
@@ -32,7 +32,7 @@ export default function ContractInfoContainer({ hashId }: Props) {
 
     return (
         <Center w="full" h="full">
-            <ContractOwner hashId={hashId} data={data} />
+            <ContractOwner {...contract} data={data} />
             <Tabs items={tabs} defaultValue="Overview" />
         </Center>
     )

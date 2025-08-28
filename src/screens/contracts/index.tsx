@@ -1,12 +1,15 @@
-import { Box } from "@chakra-ui/react"
+import { Box, Flex } from "@chakra-ui/react"
 import Select from "../../components/ui/Select"
 import { useState } from "react"
 import { Category } from "../../components/ui/summaryBox"
 import { useLocation } from "react-router-dom"
+import { type Contract } from "../../components/contractInfo/types"
+import ContractInfoContainer from "../../components/contractInfo"
 
 export default function Contracts() {
     const location = useLocation()
     const [category, setCategory] = useState<keyof typeof Category>(location.state?.category ?? "WALLETS")
+    const [focusedContract, setFocusedContract] = useState<Contract>()
 
     return (
         <Box h="100vh" display="flex" flexDir="column" bgColor="#c6d0e8">
@@ -19,6 +22,11 @@ export default function Contracts() {
                 onOptionChange={setCategory}
                 width="150px"
             />
+
+            <Flex>
+                <ContractList />
+                {focusedContract && <ContractInfoContainer contract={focusedContract} />}
+            </Flex>
         </Box>
     )
 }
