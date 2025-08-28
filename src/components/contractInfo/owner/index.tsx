@@ -6,7 +6,7 @@ type Props = {
     hashId: string
 }
 
-export default function Owner({ data, hashId }: Partial<Props>) {
+export default function ContractOwner({ data, hashId }: Partial<Props>) {
     return (
         <Flex gap="0.25rem">
             <Skeleton loading={!data}>

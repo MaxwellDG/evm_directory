@@ -11,3 +11,9 @@ export type Owner = Partial<{
 export type ContractData = {
     
 }
+
+export type ContractMethod = {
+    name: string
+    desc?: string
+    code: string
+}
