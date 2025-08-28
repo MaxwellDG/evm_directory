@@ -146,11 +146,11 @@ export default function CardanoLogo(
                     <path
                         fill="#0033AD30"
                         cursor="pointer"
-                        stroke={highlightedCategory === "WALLETS" ? "black" : "purple"}
-                        strokeWidth={highlightedCategory === "WALLETS" ? 2 : 2}
+                        stroke={highlightedCategory === "CONTRACTS" ? "black" : "purple"}
+                        strokeWidth={highlightedCategory === "CONTRACTS" ? 2 : 2}
                         onClick={() => {
                             const { x, y } = circleRefs.current[0].current?.getBoundingClientRect() ?? { x: 0, y: 0 }
-                            handleClick("WALLETS", { x, y })
+                            handleClick("CONTRACTS", { x, y })
                         }}
                         d="M1656.3,1081.1c-3.2-0.2-6.4-0.3-9.7-0.3c-93,0-168.4,75.4-168.4,168.4c0,89.2,69.6,163,158.7,168.1    c3.2,0,6.5,0,9.8,0c92.9-0.1,168.2-75.4,168.2-168.3c0-41.3-15.2-81.3-42.8-112.1C1742.6,1103.5,1700.9,1083.4,1656.3,1081.1    L1656.3,1081.1L1656.3,1081.1z"
                     />
@@ -166,11 +166,11 @@ export default function CardanoLogo(
                     <path
                         fill="#0033AD30"
                         cursor="pointer"
-                        stroke={highlightedCategory === "FINANCE" ? "black" : "yellow"}
-                        strokeWidth={highlightedCategory === "FINANCE" ? 2 : 2}
+                        stroke={highlightedCategory === "DEV_TOOLS" ? "black" : "yellow"}
+                        strokeWidth={highlightedCategory === "DEV_TOOLS" ? 2 : 2}
                         onClick={() => {
                             const { x, y } = circleRefs.current[1].current?.getBoundingClientRect() ?? { x: 0, y: 0 }
-                            handleClick("FINANCE", { x, y })
+                            handleClick("DEV_TOOLS", { x, y })
                         }}
                         d="M1306.8,813.6c-17.9,27.4-27.5,59.5-27.5,92.2c0,92.9,75.4,168.3,168.3,168.3c92.9,0,168.3-75.4,168.3-168.3    c0-92.9-75.2-168.2-168.1-168.3c0,0-0.1,0-0.1,0C1390.9,737.6,1337.9,766.2,1306.8,813.6L1306.8,813.6L1306.8,813.6z"
                     />
@@ -186,11 +186,11 @@ export default function CardanoLogo(
                     <path
                         fill="#0033AD30"
                         cursor="pointer"
-                        stroke={highlightedCategory === "MEDICINE" ? "black" : "green"}
-                        strokeWidth={highlightedCategory === "MEDICINE" ? 2 : 2}
+                        stroke={highlightedCategory === "WALLETS" ? "black" : "green"}
+                        strokeWidth={highlightedCategory === "WALLETS" ? 2 : 2}
                         onClick={() => {
                             const { x, y } = circleRefs.current[2].current?.getBoundingClientRect() ?? { x: 0, y: 0 }
-                            handleClick("MEDICINE", { x, y })
+                            handleClick("WALLETS", { x, y })
                         }}
                         d="M900.4,982.6c28.4,56.8,86.5,92.6,149.9,92.6c0.2,0,0.4,0,0.5,0h0c93,0,168.4-75.4,168.4-168.4    c0-26.4-6.2-52.5-18.2-76.1c-28.6-56.4-86.4-92-149.7-92c-0.3,0-0.5,0-0.8,0c-92.9,0.1-168.1,75.5-168.1,168.4    C882.6,933.4,888.7,959.2,900.4,982.6L900.4,982.6L900.4,982.6z"
                     />
@@ -224,11 +224,11 @@ export default function CardanoLogo(
                     <path
                         fill="#0033AD30"
                         cursor="pointer"
-                        stroke={highlightedCategory === "LAW" ? "black" : "blue"}
-                        strokeWidth={highlightedCategory === "LAW" ? 2 : 2}
+                        stroke={highlightedCategory === "DAPPS" ? "black" : "blue"}
+                        strokeWidth={highlightedCategory === "DAPPS" ? 2 : 2}
                         onClick={() => {
                             const { x, y } = circleRefs.current[4].current?.getBoundingClientRect() ?? { x: 0, y: 0 }
-                            handleClick("LAW", { x, y })
+                            handleClick("DAPPS", { x, y })
                         }}
                         d="M1193.1,1686.1c17.9-27.4,27.5-59.5,27.5-92.2c0-92.9-75.4-168.3-168.3-168.3c-92.9,0-168.3,75.4-168.3,168.3    c0,92.9,75.3,168.2,168.2,168.3c0.2,0,0.4,0,0.6,0C1109.4,1762.2,1162.2,1733.5,1193.1,1686.1L1193.1,1686.1L1193.1,1686.1z"
                     />
@@ -244,11 +244,11 @@ export default function CardanoLogo(
                     <path
                         fill="#0033AD30"
                         cursor="pointer"
-                        stroke={highlightedCategory === "TRANSACTIONS" ? "black" : "pink"}
-                        strokeWidth={highlightedCategory === "TRANSACTIONS" ? 2 : 2}
+                        stroke={highlightedCategory === "INFORMATIONAL" ? "black" : "pink"}
+                        strokeWidth={highlightedCategory === "INFORMATIONAL" ? 2 : 2}
                         onClick={() => {
                             const { x, y } = circleRefs.current[5].current?.getBoundingClientRect() ?? { x: 0, y: 0 }
-                            handleClick("TRANSACTIONS", { x, y })
+                            handleClick("INFORMATIONAL", { x, y })
                         }}
                         d="M1599.4,1517.5c-28.6-56.7-86.7-92.5-150.3-92.5c-92.9,0-168.3,75.4-168.3,168.3    c0,92.9,75.4,168.3,168.3,168.3c26.3-0.2,52.3-6.5,75.8-18.4c56.6-28.7,92.3-86.8,92.3-150.2    C1617.3,1566.8,1611.1,1540.9,1599.4,1517.5L1599.4,1517.5L1599.4,1517.5z"
                     />

@@ -14,7 +14,7 @@ export default function ContractList({ category }: Props) {
     const [totalPages, setTotalPages] = useState<number>(1)
 
     useEffect(() => {
-        // tood retrieve paginated and filtered data from api
+        // todo retrieve paginated and filtered data from api
     }, [category])
 
     return (

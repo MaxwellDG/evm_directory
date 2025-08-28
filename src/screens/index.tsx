@@ -17,7 +17,7 @@ export default function Root() {
     const { height } = useWindowDimensions()
     const isMobile = useBreakpointValue({ base: true, lg: false }) ?? false
 
-    const [category, setCategory] = useState<keyof typeof Category>("WALLETS")
+    const [category, setCategory] = useState<keyof typeof Category>("CONTRACTS")
 
     const circleRefs = useRef<RefObject<SVGRectElement | null>[]>([
         useRef<SVGRectElement | null>(null),
@@ -37,18 +37,18 @@ export default function Root() {
             const val = window.pageYOffset / (document.body.offsetHeight - window.innerHeight)
             const chunk = 1 / 12
 
-            if ((val < chunk * 1 && category !== "WALLETS") || (val > chunk * 11 && category !== "WALLETS")) {
+            if ((val < chunk * 1 && category !== "CONTRACTS") || (val > chunk * 11 && category !== "CONTRACTS")) {
+                setCategory("CONTRACTS")
+            } else if (val > chunk * 1 && val < chunk * 3 && category !== "DEV_TOOLS") {
+                setCategory("DEV_TOOLS")
+            } else if (val > chunk * 3 && val < chunk * 5 && category !== "WALLETS") {
                 setCategory("WALLETS")
-            } else if (val > chunk * 1 && val < chunk * 3 && category !== "FINANCE") {
-                setCategory("FINANCE")
-            } else if (val > chunk * 3 && val < chunk * 5 && category !== "MEDICINE") {
-                setCategory("MEDICINE")
             } else if (val > chunk * 5 && val < chunk * 7 && category !== "GAMING") {
                 setCategory("GAMING")
-            } else if (val > chunk * 7 && val < chunk * 9 && category !== "LAW") {
-                setCategory("LAW")
-            } else if (val > chunk * 9 && val < chunk * 11 && category !== "TRANSACTIONS") {
-                setCategory("TRANSACTIONS")
+            } else if (val > chunk * 7 && val < chunk * 9 && category !== "DAPPS") {
+                setCategory("DAPPS")
+            } else if (val > chunk * 9 && val < chunk * 11 && category !== "INFORMATIONAL") {
+                setCategory("INFORMATIONAL")
             }
 
             // @ts-ignore

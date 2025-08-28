@@ -1,22 +1,20 @@
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-} from "react-router-dom";
-import { ROUTE_SEGMENTS, ROUTES } from "./routes";
-import { AppRoot } from "./AppRoot";
-import * as Sentry from "@sentry/react";
-import Contracts from "../screens/contracts";
-import Root from "../screens";
+import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom"
+import { ROUTES } from "./routes"
+import { AppRoot } from "./AppRoot"
+import * as Sentry from "@sentry/react"
+import Contracts from "../screens/contracts"
+import Root from "../screens"
+import Directory from "../screens/directory"
 
-const sentryCreateBrowserRouter =
-  Sentry.wrapCreateMemoryRouterV6(createBrowserRouter);
+const sentryCreateBrowserRouter = Sentry.wrapCreateMemoryRouterV6(createBrowserRouter)
 
 export const Router = sentryCreateBrowserRouter(
-  createRoutesFromElements(
-    <Route path={ROUTE_SEGMENTS.ROOT} element={<AppRoot />}>
-      <Route path={ROUTE_SEGMENTS.ROOT} element={<Root />} />
-      <Route path={`${ROUTES.CONTRACTS}`} element={<Contracts />}></Route>
-    </Route>
-  )
-);
+    createRoutesFromElements(
+        <Route path={ROUTES.ROOT} element={<AppRoot />}>
+            <Route path={ROUTES.ROOT} element={<Root />} />
+            <Route path={ROUTES.DIRECTORY} element={<Directory />}>
+                <Route path={`${ROUTES.CONTRACTS}`} element={<Contracts />} />
+            </Route>
+        </Route>
+    )
+)
