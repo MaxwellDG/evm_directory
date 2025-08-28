@@ -1,15 +1,13 @@
 import { Box, Flex } from "@chakra-ui/react"
 import { useState } from "react"
 import { Category } from "../../components/ui/summaryBox"
-import { useLocation } from "react-router-dom"
 import { type Contract } from "../../components/contractInfo/types"
 import ContractInfoContainer from "../../components/contractInfo"
 import ContractList from "../../components/contractList"
 import Select from "../../components/ui/select"
 
 export default function Contracts() {
-    const location = useLocation()
-    const [category, setCategory] = useState<keyof typeof Category>(location.state?.category ?? "CONTRACTS")
+    const [category, setCategory] = useState<keyof typeof Category>("CONTRACTS")
     const [focusedContract, setFocusedContract] = useState<Contract>()
 
     return (

@@ -1,5 +1,4 @@
-import { Box, Flex, List, Text } from "@chakra-ui/react"
-import LoadingDots from "./loading-dots"
+import { Flex, Text } from "@chakra-ui/react"
 
 export const Category = {
     CONTRACTS: "contracts",
@@ -28,19 +27,9 @@ const CONTENT_MAP: Record<keyof typeof Category, string> = {
 
 export default function SummaryBox({ category }: Props) {
     return (
-        <Flex bgColor="white" border="2px solid black" flexDir="column">
-            <Box p="0.5rem" borderBottom="2px solid black">
-                {!category ? <LoadingDots /> : <Text>{category}</Text>}
-            </Box>
-            <List.Root p="0.5rem" as="ul" display="flex" overflow="auto" flexWrap={"wrap"} minW="350px">
-                {(!category ? [] : CONTENT_MAP[category]).map((item: string) => {
-                    return (
-                        <List.Item as="li" ml="1.25rem">
-                            {item}
-                        </List.Item>
-                    )
-                })}
-            </List.Root>
+        <Flex flexDir="column" rowGap="0.5rem">
+            <Text textStyle="ManropeSemibold3x">{category}</Text>
+            <Text textStyle="ManroperegularLarge">{CONTENT_MAP[category]}</Text>
         </Flex>
     )
 }

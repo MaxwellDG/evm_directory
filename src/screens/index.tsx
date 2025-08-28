@@ -12,6 +12,15 @@ declare global {
     }
 }
 
+const CATEGORY_ROUTE_MAPPING: Record<keyof typeof Category, keyof typeof ROUTES> = {
+    CONTRACTS: ROUTES.CONTRACTS,
+    DAPPS: ROUTES.DAPPS,
+    DEV_TOOLS: ROUTES.DEV_TOOLS,
+    INFORMATIONAL: ROUTES.INFORMATIONAL,
+    GAMING: ROUTES.GAMING,
+    WALLETS: ROUTES.WALLETS,
+}
+
 export default function Root() {
     const navigate = useNavigate()
     const { height } = useWindowDimensions()
@@ -81,7 +90,7 @@ export default function Root() {
         }
 
         setTimeout(() => {
-            navigate(ROUTES.CONTRACTS, { state: { category: _category } })
+            navigate(CATEGORY_ROUTE_MAPPING[_category])
         }, 1000)
     }
 
