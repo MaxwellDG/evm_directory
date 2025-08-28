@@ -1,5 +1,5 @@
 import { Center } from "@chakra-ui/react"
-import Tabs from "../ui/tabs"
+import Tabs from "../../ui/tabs"
 import { useEffect, useMemo, useState } from "react"
 import ContractInfoOverview from "./overview"
 import ContractInfoMethods from "./methods"
