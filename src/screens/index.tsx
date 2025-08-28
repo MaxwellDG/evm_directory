@@ -4,6 +4,7 @@ import useWindowDimensions from "../hooks/useWindowDimensions.tsx"
 import { useNavigate } from "react-router-dom"
 import SummaryBox, { Category } from "../components/ui/summaryBox.tsx"
 import { useEffect, useRef, useState, type RefObject } from "react"
+import { ROUTES } from "../routing/routes.tsx"
 
 declare global {
     interface Window {
@@ -17,8 +18,6 @@ export default function Root() {
     const isMobile = useBreakpointValue({ base: true, lg: false }) ?? false
 
     const [category, setCategory] = useState<keyof typeof Category>("WALLETS")
-    const [bgStartingPoint, setBgStartingPoint] = useState<{ x: number; y: number }>()
-    const [selectedCategory, setSelectedCategory] = useState<keyof typeof Category | null>(null)
 
     const circleRefs = useRef<RefObject<SVGRectElement | null>[]>([
         useRef<SVGRectElement | null>(null),
@@ -59,7 +58,6 @@ export default function Root() {
 
     function handleClick(_category: keyof typeof Category, point: { x: number; y: number }) {
         if (point) {
-            // Create a rectangle element
             const rect = document.createElement("div")
             rect.style.position = "fixed"
             rect.style.left = `${point.x - 116}px`
@@ -82,9 +80,9 @@ export default function Root() {
             })
         }
 
-        // setTimeout(() => {
-        //   navigate(ROUTES.CONTRACTS, { state: { category: _category } });
-        // }, 1000);
+        setTimeout(() => {
+            navigate(ROUTES.CONTRACTS, { state: { category: _category } })
+        }, 1000)
     }
 
     return (

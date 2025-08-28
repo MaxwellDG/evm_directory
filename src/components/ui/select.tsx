@@ -42,7 +42,7 @@ function Select<T extends string | number>(
 
     return (
         <Menu.Root>
-            <Menu.Trigger asChild>
+            <Menu.Trigger asChild bgColor="white">
                 <Button
                     ref={ref}
                     size={size}
