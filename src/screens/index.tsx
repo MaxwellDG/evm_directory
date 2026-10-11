@@ -4,7 +4,7 @@ import useWindowDimensions from "../hooks/useWindowDimensions.tsx"
 import { useNavigate } from "react-router-dom"
 import SummaryBox, { Category } from "../components/ui/summaryBox.tsx"
 import { useEffect, useRef, useState, type RefObject } from "react"
-import { ROUTES } from "../routing/routes.tsx"
+import { ROUTES, type RoutePath } from "../routing/routes.tsx"
 
 declare global {
     interface Window {
@@ -12,7 +12,7 @@ declare global {
     }
 }
 
-const CATEGORY_ROUTE_MAPPING: Record<keyof typeof Category, keyof typeof ROUTES> = {
+const CATEGORY_ROUTE_MAPPING: Record<keyof typeof Category, RoutePath> = {
     CONTRACTS: ROUTES.CONTRACTS,
     DAPPS: ROUTES.DAPPS,
     DEV_TOOLS: ROUTES.DEV_TOOLS,

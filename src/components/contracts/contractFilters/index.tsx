@@ -1,13 +1,16 @@
 import { Flex, Input, Switch, Text } from "@chakra-ui/react"
 import Select, { type Option } from "../../ui/select"
-import { CONTRACT_TYPE, type Contract } from "../contractInfo/types"
+import type { ChangeEvent } from "react"
+import { CONTRACT_TYPE } from "../contractInfo/types"
+
+export type ContractTypeKey = keyof typeof CONTRACT_TYPE
 
 export type ContractFiltersPayload = {
     page: number
     sort: string
     isKnown: boolean
     search: string
-    type?: typeof CONTRACT_TYPE
+    type?: ContractTypeKey
 }
 
 type Props = {
@@ -15,7 +18,7 @@ type Props = {
     handleChangeFilters: (name: keyof ContractFiltersPayload, val: any) => void
 }
 
-const CONTRACT_TYPE_OPTIONS: Option<typeof CONTRACT_TYPE>[] = Object.keys(CONTRACT_TYPE).map((key) => ({
+const CONTRACT_TYPE_OPTIONS: Option<ContractTypeKey>[] = (Object.keys(CONTRACT_TYPE) as ContractTypeKey[]).map((key) => ({
     value: key,
     label: key, // todo capitalize first letter
 }))
@@ -34,10 +37,13 @@ export default function ContractFilters({ filters, handleChangeFilters }: Props)
                 onOptionChange={(val) => handleChangeFilters("type", val)}
             />
             <Flex align="center">
-                <Switch
-                    value={filters.isKnown}
-                    onChange={(e: Event) => handleChangeFilters("isKnown", e.target.value)}
-                />
+                <Switch.Root
+                    checked={filters.isKnown}
+                    onCheckedChange={(e) => handleChangeFilters("isKnown", e.checked)}
+                >
+                    <Switch.HiddenInput />
+                    <Switch.Control />
+                </Switch.Root>
                 <Text>Is Known</Text>
             </Flex>
             <Select
@@ -45,7 +51,7 @@ export default function ContractFilters({ filters, handleChangeFilters }: Props)
                 selectedOption={filters.sort}
                 onOptionChange={(val) => handleChangeFilters("sort", val)}
             />
-            <Input value={filters.search} onChange={(e: Event) => handleChangeFilters("search", e.target.value)} />
+            <Input value={filters.search} onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeFilters("search", e.target.value)} />
         </Flex>
     )
 }
