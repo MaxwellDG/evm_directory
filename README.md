@@ -2,13 +2,11 @@
 
 A web front end for browsing on-chain projects by category: smart contracts, dapps, developer tools, gaming, informational resources, and wallets. It is an early work in progress; most screens are placeholders and no live data is loaded yet.
 
-> Note: the landing page artwork and category descriptions currently reference Cardano (Cardano logo, Cardano-specific copy in `src/components/ui/summaryBox.tsx`), even though the project is named EVM Directory.
-
 ## What's in the app
 
 ### Landing page (`src/screens/index.tsx`)
 
-A tall scrolling page with a large logo graphic (`src/assets/svgs/cardano-logo.tsx`). As you scroll, the highlighted category rotates through Contracts, Dev Tools, Wallets, Gaming, Dapps, and Informational, and a summary box describes the current one. Clicking a category plays an expanding-circle transition and then navigates to that category's route.
+A tall scrolling page with a large rotating EVM/Ethereum logo graphic (`src/assets/svgs/evm-logo.tsx`): an Ethereum diamond surrounded by six clickable category nodes. As you scroll, the highlighted category rotates through Contracts, Dev Tools, Wallets, Gaming, Dapps, and Informational, and a summary box describes the current one. Clicking a category plays an expanding-circle transition and then navigates to that category's route.
 
 ### Directory and category screens (`src/screens/`)
 
@@ -58,7 +56,7 @@ pnpm preview       # serve the production build locally
 
 ```
 src/
-  assets/svgs/          logo graphic used on the landing page
+  assets/svgs/          EVM logo graphic used on the landing page
   components/
     contracts/          contract filters, list, and info (overview, owner, methods)
     ui/                 shared UI: paginator, tabs, select, summary box, Chakra provider, etc.
