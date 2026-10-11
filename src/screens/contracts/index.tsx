@@ -7,8 +7,9 @@ import ContractList from "../../components/contracts/contractList"
 
 export default function Contracts() {
     const [focusedContract, setFocusedContract] = useState<Contract>()
-    const [data, setData] = useState<Contract[]>([])
-    const [totalPages, setTotalPages] = useState<number>(1)
+    // setters will be used once contracts are fetched from the API (see todo below)
+    const [data, _setData] = useState<Contract[]>([])
+    const [totalPages, _setTotalPages] = useState<number>(1)
     const [filters, setFilters] = useState<ContractFiltersPayload>({
         page: 1,
         sort: "created_at_desc",

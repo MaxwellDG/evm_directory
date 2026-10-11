@@ -5,7 +5,7 @@ type Props = {
     data?: ContractData
 }
 
-export default function ContractInfoOverview({ data }: Props) {
+export default function ContractInfoOverview({ data: _data }: Props) {
     return (
         <Box>
             <Text>ContractInfoOverview</Text>

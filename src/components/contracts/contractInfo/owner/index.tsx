@@ -8,13 +8,13 @@ type Props = {
     desc?: string
 }
 
-export default function ContractOwner({ data, hashId, name, desc }: Partial<Props>) {
+export default function ContractOwner({ data, hashId, name: _name, desc: _desc }: Partial<Props>) {
     return (
         <Flex gap="0.25rem">
             <Skeleton loading={!data}>
                 <Box w="100px" h="100px" borderRadius="full">
                     <Image h="full" w="full" />
-                    // todo if no image associated, make a circle with your logo inside of it. Or the cardano logo.
+                    // todo if no image associated, make a circle with your logo inside of it. Or the EVM logo.
                     Something better than just a letter // an image of a greyed out user would be meh. Maybe a greyed
                     out husky?
                     {/* <Box h="full" w="full"></Box> */}

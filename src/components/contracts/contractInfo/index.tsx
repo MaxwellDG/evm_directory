@@ -11,7 +11,8 @@ type Props = {
 }
 
 export default function ContractInfoContainer({ contract }: Props) {
-    const [data, setData] = useState<ContractData>()
+    // setter will be used once data is fetched from the API (see todo below)
+    const [data, _setData] = useState<ContractData>()
 
     useEffect(() => {
         // todo retrieve data from api with hashId
