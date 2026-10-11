@@ -1,69 +1,69 @@
-# React + TypeScript + Vite
+# EVM Directory
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web front end for browsing on-chain projects by category: smart contracts, dapps, developer tools, gaming, informational resources, and wallets. It is an early work in progress; most screens are placeholders and no live data is loaded yet.
 
-Currently, two official plugins are available:
+> Note: the landing page artwork and category descriptions currently reference Cardano (Cardano logo, Cardano-specific copy in `src/components/ui/summaryBox.tsx`), even though the project is named EVM Directory.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## What's in the app
 
-## Expanding the ESLint configuration
+### Landing page (`src/screens/index.tsx`)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+A tall scrolling page with a large logo graphic (`src/assets/svgs/cardano-logo.tsx`). As you scroll, the highlighted category rotates through Contracts, Dev Tools, Wallets, Gaming, Dapps, and Informational, and a summary box describes the current one. Clicking a category plays an expanding-circle transition and then navigates to that category's route.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Directory and category screens (`src/screens/`)
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+| Screen | Path | Status |
+| --- | --- | --- |
+| Directory | `/directory` | Layout wrapper that renders the selected category via `<Outlet />` |
+| Contracts | `/directory/contracts` | In progress (see below) |
+| Dapps, Dev Tools, Gaming, Informational, Wallets | `/directory/<category>` | Empty placeholder components; not yet registered in the router |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Routes are defined in `src/routing/routes.tsx` and wired up in `src/routing/index.tsx`. Only the root page and `/directory/contracts` are currently registered.
+
+### Contracts screen (`src/screens/contracts/`, `src/components/contracts/`)
+
+- **Filters** (`contractFilters`): contract type select (law, medicine, gaming, defi, gambling, crowdfunding), an "Is Known" toggle, a sort select (newest / oldest), and a search input.
+- **Contract list** (`contractList`): list of contracts with avatar and hash ID, plus a paginator (`src/components/ui/paginator`) driven by the filters' `page` value.
+- **Contract info** (`contractInfo`): shown when a contract is selected, with an owner header (`owner`) and tabs (`src/components/ui/tabs`) for **Overview** (`overview`) and **Methods** (`methods`, an accordion list of contract methods).
+
+The contract list starts empty and the info panels are placeholders: the data-fetching hooks are still `todo`s.
+
+## Data source (planned)
+
+Contract data is not fetched yet. The `todo` comments in `src/screens/contracts/index.tsx` (paginated, filtered contract list) and `src/components/contracts/contractInfo/index.tsx` (contract details by hash ID) mark where data will be loaded from the [evm_directory_api](https://github.com/MaxwellDG/evm_directory_api) GraphQL API.
+
+## Stack
+
+- [React 19](https://react.dev/) + TypeScript
+- [Vite 7](https://vite.dev/) with `@vitejs/plugin-react`
+- [Chakra UI v3](https://chakra-ui.com/) (with Emotion and `next-themes` for color mode)
+- [React Router 7](https://reactrouter.com/) (`react-router-dom`)
+- [Framer Motion](https://motion.dev/), [React Icons](https://react-icons.github.io/react-icons/), Sass
+- [Sentry](https://docs.sentry.io/platforms/javascript/guides/react/) router instrumentation (`@sentry/react`)
+
+## Getting started
+
+Requires Node.js (a version supported by Vite 7, i.e. 20.19+ or 22.12+) and [pnpm](https://pnpm.io/) (a `pnpm-lock.yaml` is committed).
+
+```bash
+pnpm install       # install dependencies
+pnpm dev           # start the Vite dev server with HMR
+pnpm build         # type-check (tsc -b) and build to dist/
+pnpm preview       # serve the production build locally
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+`pnpm lint` runs `eslint .`, but no ESLint config file is committed yet, so it will fail until one is added.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Project structure
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+  assets/svgs/          logo graphic used on the landing page
+  components/
+    contracts/          contract filters, list, and info (overview, owner, methods)
+    ui/                 shared UI: paginator, tabs, select, summary box, Chakra provider, etc.
+  hooks/                useWindowDimensions
+  routing/              route constants, router, and app root
+  screens/              landing page and directory/category screens
+  styles/, theme/       global styles, fonts, text styles, breakpoints
 ```
