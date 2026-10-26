@@ -3,7 +3,6 @@ import type {
     EscrowFilter,
     EscrowOffer,
     EscrowOfferFilter,
-    EscrowOfferStats,
     EscrowStats,
 } from "./types"
 
@@ -157,21 +156,21 @@ const ESCROW_OFFER_EVENT_FIELDS = `
   }
 `
 
-/** DirectoryEscrow offers (list view omits the event history to keep payloads small). */
-export async function fetchEscrowOffers(opts: {
+/** DirectoryEscrow offers including each offer's event history. */
+export async function fetchEscrowOffersWithEvents(opts: {
     page?: number
     pageSize?: number
     where?: EscrowOfferFilter
 }): Promise<EscrowOffer[]> {
     const pageSize = opts.pageSize ?? DEFAULT_PAGE_SIZE
     const page = Math.max(1, opts.page ?? 1)
-    const data = await graphql<{ escrowOffers: Omit<EscrowOffer, "events">[] }>(
-        `query EscrowOffers($first: Int!, $skip: Int!, $where: EscrowOfferFilter) {
-          escrowOffers(first: $first, skip: $skip, where: $where) { ${ESCROW_OFFER_FIELDS} }
+    const data = await graphql<{ escrowOffers: EscrowOffer[] }>(
+        `query EscrowOffersWithEvents($first: Int!, $skip: Int!, $where: EscrowOfferFilter) {
+          escrowOffers(first: $first, skip: $skip, where: $where) { ${ESCROW_OFFER_FIELDS} ${ESCROW_OFFER_EVENT_FIELDS} }
         }`,
         { first: pageSize, skip: (page - 1) * pageSize, where: opts.where ?? null }
     )
-    return data.escrowOffers.map((o) => ({ ...o, events: [] }))
+    return data.escrowOffers
 }
 
 export async function fetchEscrowOffer(id: string): Promise<EscrowOffer | null> {
@@ -182,18 +181,6 @@ export async function fetchEscrowOffer(id: string): Promise<EscrowOffer | null> 
         { id }
     )
     return data.escrowOffer
-}
-
-export async function fetchEscrowOfferStats(): Promise<EscrowOfferStats> {
-    const data = await graphql<{ escrowOfferStats: EscrowOfferStats }>(
-        `query EscrowOfferStats {
-          escrowOfferStats {
-            created open accepted succeeded failed completed cancelled refunded expired
-            volume volumeUsd successRate updatedAt
-          }
-        }`
-    )
-    return data.escrowOfferStats
 }
 
 export { DEFAULT_PAGE_SIZE }
