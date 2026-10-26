@@ -34,5 +34,3 @@ export const ROUTES = {
 } as const
 
 export type RoutePath = (typeof ROUTES)[keyof typeof ROUTES]
-
-export const escrowOfferPath = (id: string) => `${ESCROW_OFFERS}/${encodeURIComponent(id)}`

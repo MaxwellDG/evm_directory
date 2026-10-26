@@ -117,22 +117,6 @@ export type EscrowOffer = {
     events: EscrowOfferEvent[]
 }
 
-export type EscrowOfferStats = {
-    created: string
-    open: string
-    accepted: string
-    succeeded: string
-    failed: string
-    completed: string
-    cancelled: string
-    refunded: string
-    expired: string
-    volume: string
-    volumeUsd: string
-    successRate?: number | null
-    updatedAt?: string | null
-}
-
 export type EscrowOfferFilter = {
     status?: EscrowOfferStatus
     outcome?: EscrowOutcome

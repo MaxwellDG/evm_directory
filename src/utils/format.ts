@@ -18,36 +18,9 @@ export function formatEth(wei?: string | null, decimals = 4): string {
     return `${neg ? "-" : ""}${whole.toLocaleString("en-US")}${frac ? `.${frac}` : ""} ETH`
 }
 
-/** USD value with 18 decimals (as emitted by DirectoryEscrow) -> "$1,234.56". */
-export function formatUsd(value?: string | null, decimals = 18): string {
-    if (value == null || value === "") return "—"
-    let n: number
-    try {
-        n = Number(BigInt(value)) / 10 ** decimals
-    } catch {
-        return value
-    }
-    return n.toLocaleString("en-US", { style: "currency", currency: "USD" })
-}
-
 export function shortAddress(addr?: string | null): string {
     if (!addr) return "—"
     return addr.length > 12 ? `${addr.slice(0, 6)}…${addr.slice(-4)}` : addr
-}
-
-export function isZeroAddress(addr?: string | null): boolean {
-    return !addr || /^0x0{40}$/i.test(addr)
-}
-
-/** Unix seconds string -> local date/time. */
-export function formatTimestamp(ts?: string | null): string {
-    if (!ts) return "—"
-    const n = Number(ts)
-    if (!Number.isFinite(n) || n === 0) return "—"
-    return new Date(n * 1000).toLocaleString("en-US", {
-        dateStyle: "medium",
-        timeStyle: "short",
-    })
 }
 
 /** Relative description of a unix-seconds deadline vs now, e.g. "in 3d 4h" / "5h ago". */
