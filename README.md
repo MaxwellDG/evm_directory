@@ -26,9 +26,9 @@ Routes are defined in `src/routing/routes.tsx` and wired up in `src/routing/inde
 
 The contract list starts empty and the info panels are placeholders: the data-fetching hooks are still `todo`s.
 
-## Data source (planned)
+## Data source
 
-Contract data is not fetched yet. The `todo` comments in `src/screens/contracts/index.tsx` (paginated, filtered contract list) and `src/components/contracts/contractInfo/index.tsx` (contract details by hash ID) mark where data will be loaded from the [evm_directory_api](https://github.com/MaxwellDG/evm_directory_api) GraphQL API.
+The contracts screen loads Sepolia escrow deals from [evm_directory_api](https://github.com/MaxwellDG/evm_directory_api) (`escrows` / `escrow` GraphQL queries). Set `VITE_API_URL` (see `.env.example`) to the running API, e.g. `http://localhost:4000/`. Rows are mapped into the existing contract list/detail UI; type filters other than DeFi currently return no rows because the API is escrow-only.
 
 ## Stack
 
