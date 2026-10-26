@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { DEFAULT_PAGE_SIZE, fetchEscrowOffers } from "../../api/client"
 import type { EscrowOffer } from "../../api/types"
 import OfferFilters, { type OfferFiltersPayload } from "../../components/escrowOffers/offerFilters"
+import OfferStats from "../../components/escrowOffers/offerStats"
 import OfferList from "../../components/escrowOffers/offerList"
 import TablePaginator from "../../components/ui/paginator"
 import LoadingDots from "../../components/ui/loading-dots"
@@ -65,6 +66,10 @@ export default function EscrowOffers() {
                     them and refund the buyer.
                 </Text>
             </Flex>
+
+            <Box mb={6}>
+                <OfferStats />
+            </Box>
 
             <Box mb={4}>
                 <OfferFilters filters={filters} onChange={handleChange} />
