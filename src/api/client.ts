@@ -157,6 +157,23 @@ const ESCROW_OFFER_EVENT_FIELDS = `
   }
 `
 
+/** DirectoryEscrow offers including each offer's event history. */
+export async function fetchEscrowOffersWithEvents(opts: {
+    page?: number
+    pageSize?: number
+    where?: EscrowOfferFilter
+}): Promise<EscrowOffer[]> {
+    const pageSize = opts.pageSize ?? DEFAULT_PAGE_SIZE
+    const page = Math.max(1, opts.page ?? 1)
+    const data = await graphql<{ escrowOffers: EscrowOffer[] }>(
+        `query EscrowOffersWithEvents($first: Int!, $skip: Int!, $where: EscrowOfferFilter) {
+          escrowOffers(first: $first, skip: $skip, where: $where) { ${ESCROW_OFFER_FIELDS} ${ESCROW_OFFER_EVENT_FIELDS} }
+        }`,
+        { first: pageSize, skip: (page - 1) * pageSize, where: opts.where ?? null }
+    )
+    return data.escrowOffers
+}
+
 /** DirectoryEscrow offers (list view omits the event history to keep payloads small). */
 export async function fetchEscrowOffers(opts: {
     page?: number
