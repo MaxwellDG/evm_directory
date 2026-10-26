@@ -5,8 +5,7 @@ import * as Sentry from "@sentry/react"
 import Contracts from "../screens/contracts"
 import Root from "../screens"
 import Directory from "../screens/directory"
-import EscrowOffers from "../screens/escrowOffers"
-import EscrowOfferDetail from "../screens/escrowOffer"
+import EscrowEvents from "../screens/escrowEvents"
 
 const sentryCreateBrowserRouter = Sentry.wrapCreateMemoryRouterV6(createBrowserRouter)
 
@@ -16,8 +15,7 @@ export const Router = sentryCreateBrowserRouter(
             <Route path={ROUTES.ROOT} element={<Root />} />
             <Route path={ROUTES.DIRECTORY} element={<Directory />}>
                 <Route path={`${ROUTES.CONTRACTS}`} element={<Contracts />} />
-                <Route path={ROUTES.ESCROW_OFFERS} element={<EscrowOffers />} />
-                <Route path={`${ROUTES.ESCROW_OFFERS}/:id`} element={<EscrowOfferDetail />} />
+                <Route path={ROUTES.ESCROW_OFFERS} element={<EscrowEvents />} />
             </Route>
         </Route>
     )

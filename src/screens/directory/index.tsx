@@ -4,7 +4,7 @@ import { ROUTES } from "../../routing/routes"
 
 const NAV_ITEMS = [
     { to: ROUTES.CONTRACTS, label: "Contracts" },
-    { to: ROUTES.ESCROW_OFFERS, label: "Escrow offers" },
+    { to: ROUTES.ESCROW_OFFERS, label: "Escrow events" },
 ] as const
 
 export default function Directory() {
