@@ -26,9 +26,6 @@ type Item = {
     meta: EventTypeMeta
     index: number
     group: THREE.Group
-    spinner: THREE.Group
-    mesh: THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>
-    edges: THREE.LineSegments<THREE.EdgesGeometry, THREE.LineBasicMaterial>
     halo: THREE.Sprite
     label: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
     labelCanvas: HTMLCanvasElement
@@ -60,34 +57,6 @@ type Bar = {
 
 const DAYS = 30
 
-function geometryFor(type: EscrowOfferEventType): THREE.BufferGeometry {
-    switch (type) {
-        case "CREATED":
-            return new THREE.IcosahedronGeometry(0.95, 0)
-        case "ACCEPTED":
-            return new THREE.TorusKnotGeometry(0.58, 0.2, 140, 14, 2, 3)
-        case "SALE_EXECUTED":
-            return new THREE.OctahedronGeometry(1.05, 0)
-        case "CANCELLED":
-            return new THREE.TorusGeometry(0.75, 0.22, 16, 48)
-        case "REFUNDED":
-            return new THREE.DodecahedronGeometry(0.95, 0)
-        case "EXPIRED": {
-            // An hourglass, turned on a lathe.
-            const pts = [
-                [0.01, -1],
-                [0.8, -1],
-                [0.75, -0.85],
-                [0.12, -0.05],
-                [0.12, 0.05],
-                [0.75, 0.85],
-                [0.8, 1],
-                [0.01, 1],
-            ].map(([x, y]) => new THREE.Vector2(x, y))
-            return new THREE.LatheGeometry(pts, 7)
-        }
-    }
-}
 
 function haloTexture(): THREE.Texture {
     const c = document.createElement("canvas")
@@ -303,28 +272,6 @@ export class EscrowScene {
 
     private makeItem(meta: EventTypeMeta, index: number, haloTex: THREE.Texture): Item {
         const group = new THREE.Group()
-        const spinner = new THREE.Group()
-        group.add(spinner)
-
-        const geo = geometryFor(meta.type)
-        const mesh = new THREE.Mesh(
-            geo,
-            new THREE.MeshStandardMaterial({
-                color: new THREE.Color(meta.to),
-                emissive: new THREE.Color(meta.from),
-                emissiveIntensity: 0.35,
-                metalness: 0.55,
-                roughness: 0.22,
-                flatShading: true,
-                transparent: true,
-            })
-        )
-        const edges = new THREE.LineSegments(
-            new THREE.EdgesGeometry(geo, 25),
-            new THREE.LineBasicMaterial({ color: new THREE.Color(meta.from), transparent: true, opacity: 0.6 })
-        )
-        edges.scale.setScalar(1.002)
-        spinner.add(mesh, edges)
 
         const halo = new THREE.Sprite(
             new THREE.SpriteMaterial({
@@ -336,8 +283,7 @@ export class EscrowScene {
                 blending: THREE.AdditiveBlending,
             })
         )
-        halo.scale.setScalar(4.2)
-        halo.position.z = -0.6
+        halo.scale.set(7, 2.4, 1)
         group.add(halo)
 
         const labelCanvas = document.createElement("canvas")
@@ -354,9 +300,9 @@ export class EscrowScene {
         group.add(label)
 
         // Generous invisible hit target so hovering feels forgiving.
-        const hit = new THREE.Mesh(new THREE.SphereGeometry(1.35, 12, 12), new THREE.MeshBasicMaterial({ visible: false }))
+        const hit = new THREE.Mesh(new THREE.PlaneGeometry(LABEL_W * 0.85, LABEL_H * 1.1), new THREE.MeshBasicMaterial({ visible: false }))
         group.add(hit)
-        for (const o of [hit, label, mesh]) o.userData.type = meta.type
+        for (const o of [hit, label]) o.userData.type = meta.type
 
         this.scene.add(group)
         const start = new THREE.Vector3((index - 2.5) * 0.6, -9, -6)
@@ -365,9 +311,6 @@ export class EscrowScene {
             meta,
             index,
             group,
-            spinner,
-            mesh,
-            edges,
             halo,
             label,
             labelCanvas,
@@ -377,7 +320,7 @@ export class EscrowScene {
             posT: start.clone(),
             scale: 0.2,
             scaleT: 1,
-            labelOffset: new THREE.Vector3(0, -1.75, 0),
+            labelOffset: new THREE.Vector3(0, 0, 0),
             labelOffsetT: new THREE.Vector3(0, -1.75, 0),
             labelScale: 1,
             labelScaleT: 1,
@@ -420,21 +363,21 @@ export class EscrowScene {
             const cols = this.camera.aspect < 0.9 ? 2 : 3
             const rows = Math.ceil(this.items.length / cols)
             const gapX = Math.min(5.4, (halfW * 2) / cols)
-            const gapY = Math.min(5, (halfH * 2 - 2.5) / rows)
+            const gapY = Math.min(3.2, (halfH * 2 - 2.5) / rows)
             const fit = Math.min(1, gapX / 5.2)
             this.items.forEach((it, i) => {
                 const c = i % cols
                 const r = Math.floor(i / cols)
                 it.posT.set((c - (cols - 1) / 2) * gapX, ((rows - 1) / 2 - r) * gapY + 0.4, (c % 2 === 0 ? 0 : -0.8) + (r % 2) * 0.4)
                 it.scaleT = fit
-                it.labelOffsetT.set(0, -1.75 * fit, 0)
-                it.labelScaleT = fit
+                it.labelOffsetT.set(0, 0, 0)
+                it.labelScaleT = fit * 1.25
                 it.opacityT = 1
             })
             return
         }
 
-        const railX = -halfW + 1.3
+        const railX = -halfW + 0.8
         const rail = this.items.filter((it) => it.meta.type !== this.selected)
         const step = Math.min(1.45, (halfH * 2 - 3.2) / rail.length)
         const top = halfH - 2.4
@@ -442,16 +385,16 @@ export class EscrowScene {
             it.posT.set(railX, top - i * step, 0)
             it.scaleT = 0.42
             // Label to the right of the object, left-aligned.
-            it.labelScaleT = 0.72
-            it.labelOffsetT.set(0.65 + (it.labelFrac * LABEL_W * 0.72) / 2, 0, 0)
+            it.labelScaleT = 0.8
+            it.labelOffsetT.set((it.labelFrac * LABEL_W * 0.8) / 2, 0, 0)
             it.opacityT = 0.85
         })
         const sel = this.items.find((it) => it.meta.type === this.selected)!
         const contentLeft = -halfW + this.railWidth() + 0.6
-        sel.posT.set(contentLeft + 0.7, halfH - 2.0, 0.6)
+        sel.posT.set(contentLeft, halfH - 2.0, 0.6)
         sel.scaleT = 0.6
-        sel.labelScaleT = 1.15
-        sel.labelOffsetT.set(0.9 + (sel.labelFrac * LABEL_W * 1.15) / 2, 0, 0)
+        sel.labelScaleT = 1.3
+        sel.labelOffsetT.set((sel.labelFrac * LABEL_W * 1.3) / 2, 0, 0)
         sel.opacityT = 1
     }
 
@@ -536,25 +479,22 @@ export class EscrowScene {
             it.group.position.set(it.pos.x, it.pos.y + bob, it.pos.z + it.hover * 0.8)
             it.group.scale.setScalar(it.scale * (1 + it.hover * 0.18))
 
-            const spin = rm ? 0 : dt * (0.35 + it.hover * 1.6 + (isSel ? 0.4 : 0))
-            it.spinner.rotation.y += spin
-            it.spinner.rotation.x += spin * 0.45
-            if (!rm && !this.selected) {
-                // Lean toward the cursor.
-                it.spinner.rotation.z += (this.pointerSmooth.x * 0.25 - it.spinner.rotation.z) * damp(2, dt)
-            }
-
-            it.mesh.material.emissiveIntensity = 0.3 + it.hover * 0.7 + (isSel ? 0.35 : 0)
-            it.mesh.material.opacity = it.opacity
-            it.edges.material.opacity = 0.55 * it.opacity + it.hover * 0.4
             ;(it.halo.material as THREE.SpriteMaterial).opacity =
-                (0.22 + it.hover * 0.5 + (isSel ? 0.25 : 0) + (rm ? 0 : Math.sin(t * 2 + it.index) * 0.04)) * it.opacity
-            it.halo.scale.setScalar(4.2 + it.hover * 1.4)
+                (0.16 + it.hover * 0.45 + (isSel ? 0.2 : 0) + (rm ? 0 : Math.sin(t * 2 + it.index) * 0.04)) * it.opacity
 
             // Labels live in the group but keep their own world size/offset (independent of object scale).
             const gs = Math.max(it.group.scale.x, 0.001)
             it.label.position.copy(it.labelOffset).multiplyScalar(1 / gs)
-            it.label.scale.setScalar(it.labelScale / gs)
+            it.label.scale.setScalar((it.labelScale * (1 + it.hover * 0.12)) / gs)
+            // Names carry the motion now: a gentle 3D sway that leans toward the cursor.
+            const sway = rm ? 0 : Math.sin(t * 0.7 + it.index * 1.1) * (this.selected ? 0.05 : 0.16)
+            it.label.rotation.y += (sway + (rm || this.selected ? 0 : this.pointerSmooth.x * 0.3) - it.label.rotation.y) * k(4)
+            it.label.rotation.x += ((rm || this.selected ? 0 : -this.pointerSmooth.y * 0.2) - it.label.rotation.x) * k(4)
+            it.hit.position.copy(it.label.position)
+            it.hit.scale.copy(it.label.scale)
+            // Halo glows behind the name; width follows the text.
+            it.halo.position.set(it.label.position.x, it.label.position.y, -0.4 / gs)
+            it.halo.scale.set(((it.labelFrac * LABEL_W + 1.5) * it.labelScale * (1 + it.hover * 0.3)) / gs, (2.2 * it.labelScale) / gs, 1)
             it.label.material.opacity = Math.min(1, it.opacity + it.hover * 0.3)
         }
 
