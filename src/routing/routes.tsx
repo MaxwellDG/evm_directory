@@ -8,6 +8,7 @@ export const ROUTE_SEGMENTS = {
     WALLETS: "wallets",
     DAPPS: "dapps",
     DEV_TOOLS: "dev_tools",
+    ESCROW_OFFERS: "escrow_offers",
 } as const
 
 const ROOT = ROUTE_SEGMENTS.ROOT
@@ -18,6 +19,7 @@ const INFORMATIONAL = `${DIRECTORY}/${ROUTE_SEGMENTS.INFORMATIONAL}` as const
 const WALLETS = `${DIRECTORY}/${ROUTE_SEGMENTS.WALLETS}` as const
 const DAPPS = `${DIRECTORY}/${ROUTE_SEGMENTS.DAPPS}` as const
 const DEV_TOOLS = `${DIRECTORY}/${ROUTE_SEGMENTS.DEV_TOOLS}` as const
+const ESCROW_OFFERS = `${DIRECTORY}/${ROUTE_SEGMENTS.ESCROW_OFFERS}` as const
 
 export const ROUTES = {
     ROOT,
@@ -28,6 +30,9 @@ export const ROUTES = {
     WALLETS,
     DAPPS,
     DEV_TOOLS,
+    ESCROW_OFFERS,
 } as const
 
 export type RoutePath = (typeof ROUTES)[keyof typeof ROUTES]
+
+export const escrowOfferPath = (id: string) => `${ESCROW_OFFERS}/${encodeURIComponent(id)}`
