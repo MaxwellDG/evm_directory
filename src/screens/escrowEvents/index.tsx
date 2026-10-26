@@ -34,10 +34,10 @@ function useContentLeftPct() {
 function Metric({ label, value }: { label: string; value: string }) {
     return (
         <Box>
-            <Text fontSize="10px" letterSpacing="0.25em" color="whiteAlpha.500">
+            <Text fontSize="10px" letterSpacing="0.25em" color="blue.300">
                 {label}
             </Text>
-            <Text fontFamily={DISPLAY_FONT} fontSize="xl" fontWeight="semibold" color="white">
+            <Text fontFamily={DISPLAY_FONT} fontSize="xl" fontWeight="semibold" color="blue.50">
                 {value}
             </Text>
         </Box>
@@ -85,10 +85,10 @@ export default function EscrowEvents() {
                 position="fixed"
                 inset={0}
                 zIndex={10}
-                color="white"
+                color="blue.50"
                 overflow="hidden"
                 fontFamily="'Manrope', system-ui, sans-serif"
-                bg="radial-gradient(ellipse at 30% 20%, #161433 0%, #07070d 55%, #040408 100%)"
+                bg="radial-gradient(ellipse at 30% 20%, #0c1e46 0%, #050b1a 55%, #02050d 100%)"
             >
                 <EscrowCanvas
                     selected={selected}
@@ -109,17 +109,17 @@ export default function EscrowEvents() {
 
                 <Flex position="absolute" top={0} left={0} right={0} justify="space-between" px={{ base: 6, md: 10 }} pt={7} pointerEvents="none">
                     <RouterLink to={ROUTES.CONTRACTS} style={{ pointerEvents: "auto" }}>
-                        <Text fontSize="xs" letterSpacing="0.3em" color="whiteAlpha.600" _hover={{ color: "white" }}>
+                        <Text fontSize="xs" letterSpacing="0.3em" color="blue.200" _hover={{ color: "white" }}>
                             ← EVM DIRECTORY
                         </Text>
                     </RouterLink>
-                    <Text fontSize="xs" letterSpacing="0.3em" color="whiteAlpha.500">
+                    <Text fontSize="xs" letterSpacing="0.3em" color="blue.300">
                         DIRECTORYESCROW · SEPOLIA
                     </Text>
                 </Flex>
 
                 {error && (
-                    <Text position="absolute" top={14} left={10} color="red.300" fontSize="sm">
+                    <Text position="absolute" top={14} left={10} color="blue.200" fontSize="sm">
                         {error}
                     </Text>
                 )}
@@ -134,10 +134,10 @@ export default function EscrowEvents() {
                             transition={{ duration: 0.6, delay: 0.3 }}
                             style={{ position: "absolute", left: 0, right: 0, bottom: 36, textAlign: "center", pointerEvents: "none" }}
                         >
-                            <Text fontSize="xs" letterSpacing="0.35em" color="whiteAlpha.500">
+                            <Text fontSize="xs" letterSpacing="0.35em" color="blue.300">
                                 {hoverMeta ? hoverMeta.name.toUpperCase() : "CHOOSE AN ESCROW EVENT"}
                             </Text>
-                            <Text mt={2} color="whiteAlpha.700" minH="1.5em">
+                            <Text mt={2} color="blue.100" minH="1.5em">
                                 {hoverMeta?.blurb ?? ""}
                             </Text>
                         </motion.div>
@@ -161,7 +161,7 @@ export default function EscrowEvents() {
                                 background: "none",
                                 border: "none",
                                 cursor: "pointer",
-                                color: "rgba(255,255,255,0.55)",
+                                color: "rgba(147,197,253,0.75)",
                                 fontSize: 11,
                                 letterSpacing: "0.3em",
                             }}
@@ -189,11 +189,11 @@ export default function EscrowEvents() {
                                 flexDirection: "column",
                             }}
                         >
-                            <Flex gap={10} align="end" wrap="wrap" pb={3} borderBottom="1px solid" borderColor="whiteAlpha.100">
+                            <Flex gap={10} align="end" wrap="wrap" pb={3} borderBottom="1px solid" borderColor="blue.900">
                                 <Metric label="EVENTS" value={records.length.toLocaleString("en-US")} />
                                 <Metric label="ETH MOVED" value={formatEth(volume.toString(), 3)} />
                                 <Metric label="UNIQUE ACTORS" value={actors.toLocaleString("en-US")} />
-                                <Text ml="auto" fontSize="10px" letterSpacing="0.25em" color="whiteAlpha.500" pb={1}>
+                                <Text ml="auto" fontSize="10px" letterSpacing="0.25em" color="blue.300" pb={1}>
                                     LAST {SERIES_DAYS} DAYS · PEAK {peak}/DAY · {meta.blurb.toUpperCase()}
                                 </Text>
                             </Flex>

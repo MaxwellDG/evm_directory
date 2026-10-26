@@ -131,7 +131,7 @@ function drawLabel(canvas: HTMLCanvasElement, meta: EventTypeMeta, count?: numbe
     if (countStr) {
         g.shadowBlur = 0
         g.font = `600 64px ${DISPLAY_FONT}`
-        g.fillStyle = "rgba(255,255,255,0.5)"
+        g.fillStyle = "rgba(191,219,254,0.6)"
         g.fillText(countStr, nameW + 30, -34)
     }
     g.restore()
@@ -182,13 +182,13 @@ export class EscrowScene {
         this.camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 200)
         this.camera.position.set(0, 0, CAM_Z)
 
-        this.scene.add(new THREE.AmbientLight(0xffffff, 0.35))
-        const dir = new THREE.DirectionalLight(0xffffff, 1.2)
+        this.scene.add(new THREE.AmbientLight(0xbfdbfe, 0.35))
+        const dir = new THREE.DirectionalLight(0xe0f2fe, 1.2)
         dir.position.set(4, 6, 10)
         this.scene.add(dir)
-        this.keyLight = new THREE.PointLight(0x7c3aed, 60, 40)
+        this.keyLight = new THREE.PointLight(0x2563eb, 60, 40)
         this.keyLight.position.set(-6, 4, 6)
-        this.fillLight = new THREE.PointLight(0x22d3ee, 50, 40)
+        this.fillLight = new THREE.PointLight(0x7dd3fc, 50, 40)
         this.fillLight.position.set(6, -4, 6)
         this.scene.add(this.keyLight, this.fillLight)
 
@@ -291,7 +291,7 @@ export class EscrowScene {
             const th = Math.random() * Math.PI * 2
             const ph = Math.acos(2 * Math.random() - 1)
             pos.set([r * Math.sin(ph) * Math.cos(th), r * Math.sin(ph) * Math.sin(th), -Math.abs(r * Math.cos(ph)) - 5], i * 3)
-            const c = Math.random() < 0.7 ? new THREE.Color(0xffffff) : palette[i % palette.length]
+            const c = Math.random() < 0.7 ? new THREE.Color(0xdbeafe) : palette[i % palette.length]
             col.set([c.r, c.g, c.b], i * 3)
         }
         const geo = new THREE.BufferGeometry()
